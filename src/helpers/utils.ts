@@ -25,7 +25,7 @@ export async function ajax(action: string, config: Config) {
         `&startblock=0` +
         `&endblock=99999999` +
         `&page=1` +
-        `&offset=10` +
+        `&offset=50` +
         `&sort=asc` +
         `&apikey=${apikey}`
       break

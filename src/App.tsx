@@ -8,7 +8,9 @@ import { ajax } from './helpers/utils'
 export default function App() {
   const [totalBalance, setTotalBalance] = React.useState(0)
   const [address, setAddress] = React.useState('')
-  const [results, setResults] = React.useState('')
+  const [results, setResults] = React.useState(false)
+  const [downloading, setDownloading] = React.useState(false);
+  const [failed, setFailed] = React.useState(false);
   const input = React.useRef<any>()
 
   async function addressHandler(_e: any) {
@@ -18,6 +20,7 @@ export default function App() {
       method: 'GET',
       address: input.current.value,
     }
+    setDownloading(true)
     resp = await ajax('balance', config)
     json = await resp.json()
     console.log(json)
@@ -25,7 +28,8 @@ export default function App() {
     resp = await ajax('txlist', config)
     json = await resp.json()
     console.log(json)
-    setResults(json.result)
+    json.result.length && setResults(json.result) || setFailed(true)
+    setDownloading(false)
   }
 
   return (
@@ -71,7 +75,9 @@ export default function App() {
           <QrcodeOutlined />
         </div>
       </div>
-      <WalletHistory results={results as unknown as any[]} />
+      <WalletHistory results={results} />
+      {downloading && <div>Dowloading transaction...</div>}
+      {failed && <div>Failed downloading transactions...</div>}
     </div>
   );
 }

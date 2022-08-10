@@ -1,6 +1,6 @@
 
 interface Props {
-  results: Array<any>;
+  results: Array<any> | boolean;
 }
 
 function History (props: Props) {
