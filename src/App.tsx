@@ -56,18 +56,18 @@ export default function App() {
           />
         </div>
       </div>
-      <div className="flex flex-wrap w-full leading-10 bg-slate-100 mt-5 mr-5">
-        <div className="flex flex-col">
-          <p>Receive ASK</p>
+      <div className="flex flex-nowrap w-full leading-10 bg-slate-100 mt-5 mr-5">
+        <div className="flex flex-col w-1/3 h-40">
+          <p className="text-lg font-bold pt-5">Receive ASK</p>
           <p>ERC-20</p>
           <Address address={address} size={6} copyable />
         </div>
-        <div>
+        <div className="w-1/3">
           <p>
             Share this QR code or public key with whomever is sending you ASK
           </p>
         </div>
-        <div>
+        <div className="w-full">
           <QrcodeOutlined />
         </div>
       </div>
