@@ -1,33 +1,11 @@
 import React from 'react'
-import { Card,  } from 'antd'
-import { QrcodeOutlined, } from '@ant-design/icons'
+import { QrcodeOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import Address from './components/Address'
 import WalletHistory from './components/History'
 import { ajax } from './helpers/utils'
-import './App.scss'
 
-const styles = {
-  title: {
-    fontSize: "18px",
-    fontWeight: "600",
-  },
-  header: {
-    display: "flex",
-    "flexDirection": "column",
-    gap: "5px",
-  },
-  card: {
-    boxShadow: "0 0.5rem 1.2rem rgb(189 197 209 / 20%)",
-    border: "1px solid #e7eaf3",
-    borderRadius: "1rem",
-    width: "100%",
-    fontSize: "15px",
-    fontWeight: "400",
-    flex: 'auto',
-  },
-}
 
-function App() {
+export default function App() {
   const [totalBalance, setTotalBalance] = React.useState(0)
   const [address, setAddress] = React.useState('')
   const [results, setResults] = React.useState('')
@@ -51,48 +29,50 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <div className="App-header">
-      </div>
-      <Card
-        title={<div>Wallets with ASK</div>}
-      >
-        <p>
+    <div className="mx-8 my-8">
+      <div className="text-2xl leading-12">
+        <div className="font-bold">Wallets with ASK</div>
+        <p className="text-sm leading-10">
           Track and manage your ASK holdings across all of the wallets that you
           use.
         </p>
-      </Card>
-      <div className="App-header">
-          <Card style={styles.card}>
-            <p style={styles.title}>ASK</p>
-            <p>Total Balance:</p> {totalBalance}
-          </Card>
-          <Card style={styles.card}>
-            <p style={styles.title}>Welcome to ASK Wallet Page.</p>
-            <p>Please enter a wallet address:</p>
-            <input name="Wallet"
-              ref={input}
-              value={address}
-              onChange={addressHandler}
-            />
-          </Card>
       </div>
-      <Card style={styles.card} className="QR-code">
-        <div>
-          <p style={styles.title}>Receive ASK</p>
+      <div className="container flex flex-nowrap border rounded h-40 bg-slate-200">
+        <div className="w-2/5 leading-10">
+          <p className="font-bold text-lg mt-3">
+            ASK
+            <QuestionCircleOutlined className="p-px"/>
+          </p>
+          <p>Total Balance:</p> <p className="font-bold">{totalBalance}</p>
+        </div>
+        <div className="w-full leading-10">
+          <p className="text-lg font-bold mt-3">Welcome to ASK Wallet Page.</p>
+          <p>Please enter a wallet address:</p>
+          <input className="w-3/5"
+            name="Wallet"
+            ref={input}
+            value={address}
+            onChange={addressHandler}
+          />
+        </div>
+      </div>
+      <div className="flex flex-wrap w-full leading-10 bg-slate-100 mt-5 mr-5">
+        <div className="flex flex-col">
+          <p>Receive ASK</p>
           <p>ERC-20</p>
           <Address address={address} size={6} copyable />
         </div>
         <div>
-          <p>Share this QR code or public key with whomever is sending you ASK</p>
+          <p>
+            Share this QR code or public key with whomever is sending you ASK
+          </p>
         </div>
         <div>
           <QrcodeOutlined />
         </div>
-      </Card>
-      <WalletHistory results={results as unknown as any[]}/>
+      </div>
+      <WalletHistory results={results as unknown as any[]} />
     </div>
-  )
+  );
 }
 
-export default App

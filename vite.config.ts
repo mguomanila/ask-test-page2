@@ -7,5 +7,8 @@ export default defineConfig({
   plugins: [react(), EnvironmentPlugin('all')],
   define: {
     'process.env': process.env
+  },
+  server: {
+    port: 3000,
   }
 })

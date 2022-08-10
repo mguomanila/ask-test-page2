@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import { getEllipsisTxt } from "../helpers/formatters"
 import "./identicon.css"
 import { Skeleton } from "antd"
@@ -14,15 +14,17 @@ const styles = {
   },
 }
 
-function Address(props: any) {
-  const [address, setAddress] = useState()
+interface Props {
+  address: string
+  size: number
+  style?: any
+  copyable: boolean
+}
+
+function Address(props: Props) {
   const [isClicked, setIsClicked] = useState(false)
 
-  useEffect(() => {
-    setAddress(props?.address)
-  }, [props])
-
-  if (!address)
+  if (!props.address)
     return (
       <Skeleton paragraph={{ rows: 1, width: "100%" }} title={false} active />
     )
@@ -40,7 +42,7 @@ function Address(props: any) {
       strokeLinejoin="round"
       style={{ cursor: "pointer" }}
       onClick={() => {
-        navigator.clipboard.writeText(address)
+        navigator.clipboard.writeText(props.address)
         setIsClicked(true)
       }}
     >
@@ -54,7 +56,7 @@ function Address(props: any) {
 
   return (
     <div style={{ ...styles.address, ...props.style }}>
-      <p>{props.size ? getEllipsisTxt(address, props.size) : address}</p>
+      <p>{props.size ? getEllipsisTxt(props.address, props.size) : props.address}</p>
       {props.copyable && (isClicked ? <Check /> : <Copy />)}
     </div>
   )
