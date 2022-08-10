@@ -30,17 +30,24 @@ const styles = {
 function App() {
   const [totalBalance, setTotalBalance] = React.useState(0)
   const [address, setAddress] = React.useState('')
+  const [results, setResults] = React.useState('')
   const input = React.useRef<any>()
 
   async function addressHandler(_e: any) {
+    let resp, json
     setAddress(input.current.value)
-      const resp = await ajax('balance', {
-          method: 'GET',
-          address: input.current.value,
-      })
-      const json = await resp.json()
-      console.log(json)
-      setTotalBalance(json.result)
+    const config = {
+      method: 'GET',
+      address: input.current.value,
+    }
+    resp = await ajax('balance', config)
+    json = await resp.json()
+    console.log(json)
+    setTotalBalance(json.result)
+    resp = await ajax('txlist', config)
+    json = await resp.json()
+    console.log(json)
+    setResults(json.result)
   }
 
   return (
@@ -83,7 +90,7 @@ function App() {
           <QrcodeOutlined />
         </div>
       </Card>
-      <WalletHistory wallet={address}/>
+      <WalletHistory results={results as unknown as any[]}/>
     </div>
   )
 }

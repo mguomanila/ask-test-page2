@@ -1,19 +1,15 @@
 import React from 'react'
-import { Card, } from "antd"
 
 interface Props {
-  wallet: string;
+  results: Array<any>;
 }
 
-const { Meta } = Card
-
 function History (props: Props) {
-  {/* let columns, data */}
 
   return (
-    <Card>
-      <Meta title="History" />
-    </Card>
+    <div className="">
+      <p>History</p>
+    </div>
   )
 }
 
