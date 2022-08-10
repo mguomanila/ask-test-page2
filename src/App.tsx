@@ -1,6 +1,10 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import { Card,  } from 'antd'
+import { QrcodeOutlined, } from '@ant-design/icons'
+import Address from './components/Address'
+import WalletHistory from './components/History'
+import { ajax } from './helpers/utils'
+import './App.scss'
 
 function App() {
   const [count, setCount] = useState(0)
