@@ -14,7 +14,7 @@ const styles = {
   },
 }
 
-function Address(props) {
+function Address(props: any) {
   const [address, setAddress] = useState()
   const [isClicked, setIsClicked] = useState(false)
 

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import { Card,  } from 'antd'
 import { QrcodeOutlined, } from '@ant-design/icons'
 import Address from './components/Address'
@@ -6,31 +6,92 @@ import WalletHistory from './components/History'
 import { ajax } from './helpers/utils'
 import './App.scss'
 
+const styles = {
+  title: {
+    fontSize: "18px",
+    fontWeight: "600",
+  },
+  header: {
+    display: "flex",
+    "flexDirection": "column",
+    gap: "5px",
+  },
+  card: {
+    boxShadow: "0 0.5rem 1.2rem rgb(189 197 209 / 20%)",
+    border: "1px solid #e7eaf3",
+    borderRadius: "1rem",
+    width: "100%",
+    fontSize: "15px",
+    fontWeight: "400",
+    flex: 'auto',
+  },
+}
+
 function App() {
-  const [count, setCount] = useState(0)
+  const [totalBalance, setTotalBalance] = React.useState(0)
+  const [address, setAddress] = React.useState('')
+  const input = React.useRef<HTMLInputElement>()
+
+  async function addressHandler(_e: any) {
+    setAddress(input.current.value)
+    const response = await ajax('api', {
+      get_param: 'balance?chain=eth',
+      method: 'GET',
+      wallet: input.current.value,
+    })
+    const json = await response.json()
+    console.log(json)
+    setTotalBalance((json as any).balance)
+    const resp = await ajax('transaction', {
+      get_param: '?chain=eth',
+      method: 'GET',
+      wallet: input.current.value,
+    })
+    console.log(`transaction: ${resp}`)
+  }
 
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="App-header">
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
+      <Card
+        title={<div>Wallets with ASK</div>}
+      >
         <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
+          Track and manage your ASK holdings across all of the wallets that you
+          use.
         </p>
+      </Card>
+      <div className="App-header">
+          <Card style={styles.card}>
+            <p style={styles.title}>ASK</p>
+            <p>Total Balance:</p> {totalBalance}
+          </Card>
+          <Card style={styles.card}>
+            <p style={styles.title}>Welcome to ASK Wallet Page.</p>
+            <p>Please enter a wallet address:</p>
+            <input
+              name="Wallet"
+              ref={input}
+              value={address}
+              onChange={addressHandler}
+            />
+          </Card>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Card style={styles.card} className="QR-code">
+        <div>
+          <p style={styles.title}>Receive ASK</p>
+          <p>ERC-20</p>
+          <Address address={address} size={6} copyable />
+        </div>
+        <div>
+          <p>Share this QR code or public key with whomever is sending you ASK</p>
+        </div>
+        <div>
+          <QrcodeOutlined />
+        </div>
+      </Card>
+      <WalletHistory wallet={address}/>
     </div>
   )
 }
