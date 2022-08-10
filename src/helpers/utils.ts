@@ -1,23 +1,31 @@
 const URL = {
-  api: 'https://deep-index.moralis.io/api/v2',
+  api: 'https://api.polygonscan.com/api',
 }
 
 interface Config {
-  get_param: string
   method: string
-  wallet: string
+  address: string
 }
 
-export async function ajax(key: string, config: Config) {
-  const url = URL.api + `/${config.wallet}/logs?chain=polygon`
-  console.log(`url:${url}`)
+const apikey = process.env.API_KEY
+
+export async function ajax(action: string, config: Config) {
+  let api = URL.api
+  switch(action) {
+    case 'balance':
+      api += `?module=account` +
+        `&action=balance` +
+        `&address=${config.address}` +
+        `&apikey=${apikey}`
+      break
+  }
+  console.log(`url:${api}`)
   const response = await fetch(
-    url,
+    api,
     {
       method: config.method,
       headers: {
         accept: 'application/json',
-        'X-API-Key': process.env.X_API_KEY
       }
     }
   )

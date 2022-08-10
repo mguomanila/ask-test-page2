@@ -30,24 +30,17 @@ const styles = {
 function App() {
   const [totalBalance, setTotalBalance] = React.useState(0)
   const [address, setAddress] = React.useState('')
-  const input = React.useRef<HTMLInputElement>()
+  const input = React.useRef<any>()
 
   async function addressHandler(_e: any) {
     setAddress(input.current.value)
-    const response = await ajax('api', {
-      get_param: 'balance?chain=eth',
-      method: 'GET',
-      wallet: input.current.value,
-    })
-    const json = await response.json()
-    console.log(json)
-    setTotalBalance((json as any).balance)
-    const resp = await ajax('transaction', {
-      get_param: '?chain=eth',
-      method: 'GET',
-      wallet: input.current.value,
-    })
-    console.log(`transaction: ${resp}`)
+      const resp = await ajax('balance', {
+          method: 'GET',
+          address: input.current.value,
+      })
+      const json = await resp.json()
+      console.log(json)
+      setTotalBalance(json.result)
   }
 
   return (
@@ -70,8 +63,7 @@ function App() {
           <Card style={styles.card}>
             <p style={styles.title}>Welcome to ASK Wallet Page.</p>
             <p>Please enter a wallet address:</p>
-            <input
-              name="Wallet"
+            <input name="Wallet"
               ref={input}
               value={address}
               onChange={addressHandler}

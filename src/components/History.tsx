@@ -13,7 +13,6 @@ function History (props: Props) {
   return (
     <Card>
       <Meta title="History" />
-      {/* <Table columns={columns} dataSource={data} /> */}
     </Card>
   )
 }
