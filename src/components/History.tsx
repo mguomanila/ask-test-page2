@@ -1,4 +1,3 @@
-import React from 'react'
 
 interface Props {
   results: Array<any>;
@@ -9,7 +8,7 @@ function History (props: Props) {
     <div className="mt-5">
       <p className="text-lg font-bold">History</p>
       <table className="table-auto">
-        <thead>
+        <thead className="font-bold text-center">
           <td>Status</td>
           <td>Amount(ASK)</td>
           <td>Date</td>
