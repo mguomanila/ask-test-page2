@@ -2,13 +2,13 @@ import React from 'react'
 import { QrcodeOutlined, QuestionCircleOutlined } from "@ant-design/icons";
 import Address from './components/Address'
 import WalletHistory from './components/History'
+import VerifyTransactionHash from './components/VerifyTransactionHash'
 import { ajax } from './helpers/utils'
-
 
 export default function App() {
   const [totalBalance, setTotalBalance] = React.useState(0)
   const [address, setAddress] = React.useState('')
-  const [results, setResults] = React.useState(false)
+  const [results, setResults] = React.useState([])
   const [downloading, setDownloading] = React.useState(false);
   const [failed, setFailed] = React.useState(false);
   const input = React.useRef<any>()
@@ -28,7 +28,11 @@ export default function App() {
     resp = await ajax('txlist', config)
     json = await resp.json()
     console.log(json)
-    json.result.length && setResults(json.result) || setFailed(true)
+    if(json.result.length > 0) {
+        setResults(json.result)
+    } else {
+        setFailed(true)
+    }
     setDownloading(false)
   }
 
@@ -41,7 +45,7 @@ export default function App() {
           use.
         </p>
       </div>
-      <div className="container flex flex-nowrap border rounded h-40 bg-slate-200">
+      <section className="container flex flex-nowrap border rounded h-40 bg-slate-100 p-4">
         <div className="w-2/5 leading-10">
           <p className="font-bold text-lg mt-3">
             ASK
@@ -59,8 +63,8 @@ export default function App() {
             onChange={addressHandler}
           />
         </div>
-      </div>
-      <div className="flex flex-nowrap w-full leading-10 bg-slate-100 mt-5 mr-5">
+      </section>
+      <div className="flex flex-nowrap w-full leading-10 bg-slate-100 mt-5 mr-5 p-4">
         <div className="flex flex-col w-1/3 h-40">
           <p className="text-lg font-bold pt-5">Receive ASK</p>
           <p>ERC-20</p>
@@ -78,7 +82,8 @@ export default function App() {
       <WalletHistory results={results} />
       {downloading && <div>Dowloading transaction...</div>}
       {failed && <div>Failed downloading transactions...</div>}
+      <VerifyTransactionHash />
     </div>
-  );
+  )
 }
 

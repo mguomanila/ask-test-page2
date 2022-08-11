@@ -1,11 +1,12 @@
+import type { BaseProps } from "./Base";
 
-interface Props {
-  results: Array<any> | boolean;
+interface Props extends BaseProps {
+  results: Array<any>;
 }
 
-function History (props: Props) {
+export default function History (props: Props) {
   return (
-    <div className="mt-5">
+    <section className="mt-5 p-4 bg-slate-100 leading-10">
       <p className="text-lg font-bold">History</p>
       <table className="table-auto w-5/6">
         <thead className="font-bold text-center">
@@ -29,7 +30,7 @@ function History (props: Props) {
         ))}
         </tbody>
       </table>
-    </div>
+    </section>
   )
 }
 
@@ -37,6 +38,3 @@ function shortenAddress(address : string, start = 6, endFrom = 4) {
   const START = 2;
   return `0x${address.slice(START, start)}...${address.slice(-endFrom)}`;
 }
-
-
-export default History

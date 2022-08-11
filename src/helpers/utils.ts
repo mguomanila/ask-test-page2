@@ -29,6 +29,12 @@ export async function ajax(action: string, config: Config) {
         `&sort=asc` +
         `&apikey=${apikey}`
       break
+    case 'txlistinternal':
+      api += `?module=account` +
+        `&action=txlistinternal` +
+        `&txhash=${config.address}` +
+        `&apikey=${apikey}`
+      break
   }
   console.log(`url:${api}`)
   const response = await fetch(

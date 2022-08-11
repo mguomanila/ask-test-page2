@@ -1,6 +1,9 @@
 import { useMoralis, useNativeBalance } from "react-moralis"
+import type { BaseProps } from "./Base";
 
-function NativeBalance(props) {
+interface Props extends BaseProps {}
+
+function NativeBalance(props: Props) {
   const { data: balance } = useNativeBalance(props)
   const { account, isAuthenticated } = useMoralis()
 
