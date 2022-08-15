@@ -1,5 +1,5 @@
 const URL = {
-  api: 'https://api.polygonscan.com/api',
+  api: '/api',
 }
 
 interface Config {
@@ -35,14 +35,22 @@ export async function ajax(action: string, config: Config) {
         `&txhash=${config.address}` +
         `&apikey=${apikey}`
       break
+    case 'gettxreceiptstatus':
+      api += `?module=transaction` +
+        `&action=gettxreceiptstatus` +
+        `&txhash=${config.address}` +
+        `&apikey=${apikey}`
+      break
   }
   console.log(`url:${api}`)
   const response = await fetch(
     api,
     {
       method: config.method,
+      mode: 'cors',
       headers: {
         accept: 'application/json',
+        'Access-Control-Allow-Origin': '*',
       }
     }
   )

@@ -6,18 +6,35 @@ interface Props extends BaseProps {
 }
 
 export default function VerifyTransactionHash(_props: Props) {
+  const [downloading, setDownloading] = React.useState(false);
   const [address, setAddress] = React.useState('')
+  const [results, setResults] = React.useState([])
+  const [message, setMessage] = React.useState(<></>)
   const input = React.useRef<any>()
 
   async function hashHandler(_e: any) {
+    let resp, json
+    setAddress(input.current.value)
     const config = {
       method: 'GET',
       address: input.current.value,
     }
-    setAddress(input.current.value)
-    const resp = await ajax('txlistinternal', config)
-    const json = await resp.json()
+    setDownloading(true)
+    resp = await ajax('gettxreceiptstatus', config)
+    json = await resp.json()
     console.log(json)
+    if(json.result.status == 1) {
+      setMessage(<div>Successful transaction.</div>)
+    } else {
+      setMessage(<div>Rejected or failed transaction.</div>)
+    }
+    resp = await ajax('txlistinternal', config)
+    json = await resp.json()
+    console.log(json)
+    if(json.status == 0) {
+        setResults(json.result)
+    }
+    setDownloading(false)
   }
 
   return (
@@ -30,6 +47,10 @@ export default function VerifyTransactionHash(_props: Props) {
         value={address}
         onChange={hashHandler}
       />
+      {message}
+      <div><h2 className="font-bold text-lg">Bonus:</h2>
+
+      </div>
     </section>
-  );
+  )
 }

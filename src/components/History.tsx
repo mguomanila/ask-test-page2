@@ -10,12 +10,14 @@ export default function History (props: Props) {
       <p className="text-lg font-bold">History</p>
       <table className="table-auto w-5/6">
         <thead className="font-bold text-center">
-          <td>Status</td>
-          <td>Amount(ASK)</td>
-          <td>Date</td>
-          <td>From Address</td>
-          <td>To Address</td>
-          <td>Transaction ID</td>
+          <tr>
+            <th>Status</th>
+            <th>Amount(ASK)</th>
+            <th>Date</th>
+            <th>From Address</th>
+            <th>To Address</th>
+            <th>Transaction ID</th>
+          </tr>
         </thead>
         <tbody>
         {props.results && props.results.map((block) => (
