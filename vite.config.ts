@@ -12,10 +12,10 @@ export default defineConfig({
     port: 3000,
     proxy: {
       "/api": {
-        target: 'https://api.polygonscan.com/api',
+        target: 'https://api.polygonscan.com',
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace('api', '')
+        // rewrite: (path) => path.replace('/^\/xxx/', '')
       }
     }
   }

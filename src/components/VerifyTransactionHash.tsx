@@ -14,7 +14,6 @@ export default function VerifyTransactionHash(_props: Props) {
 
   async function hashHandler(_e: any) {
     let resp, json
-    setAddress(input.current.value)
     const config = {
       method: 'GET',
       address: input.current.value,
@@ -36,6 +35,9 @@ export default function VerifyTransactionHash(_props: Props) {
     }
     setDownloading(false)
   }
+  function changeHandler(_e: any) {
+    setAddress(input.current.value)
+  }
 
   return (
     <section className="mt-5 mr-5 bg-slate-100 leading-10 p-4">
@@ -45,8 +47,9 @@ export default function VerifyTransactionHash(_props: Props) {
         name="hashAddres"
         ref={input}
         value={address}
-        onChange={hashHandler}
+        onChange={changeHandler}
       />
+      <button className="mx-4 px-4 rounded-md bg-slate-200 hover:bg-slate-300 active:bg-slate-300 focus:outline-none focus:ring" onClick={hashHandler}>Submit</button>
       {message}
       <div><h2 className="font-bold text-lg">Bonus:</h2>
 
